@@ -1,1 +1,3300 @@
 # Kana-and-Kanji
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ultimate Japanese Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg-dark: #12141c;
+        --bg-panel: #1e212b;
+        --text-main: #e2e8f0;
+        --text-muted: #94a3b8;
+        --accent-blue: #38bdf8;
+        --accent-hover: #0284c7;
+        --correct-green: #4ade80;
+        --wrong-red: #f87171;
+        --duo-card: #232b38;
+        --duo-border: #facc15;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-dark);
+        color: var(--text-main);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      /* Landing Page */
+      #landing-view {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .lang-btn {
+        background-color: var(--bg-panel);
+        border: 2px solid #334155;
+        color: white;
+        padding: 2rem;
+        border-radius: 16px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        width: 100%;
+        max-width: 400px;
+        margin: 1rem 0;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .lang-btn:hover {
+        border-color: var(--accent-blue);
+        transform: translateY(-3px);
+      }
+
+      .lang-btn span {
+        font-family: 'Noto Sans JP', sans-serif;
+        color: var(--accent-blue);
+        font-size: 2rem;
+      }
+
+      /* Navigation */
+      nav {
+        width: 100%;
+        background-color: var(--bg-panel);
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: flex-start;
+        padding: 0.8rem;
+        gap: 1rem;
+        border-bottom: 1px solid #334155;
+        flex-shrink: 0;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      @media (min-width: 600px) {
+        nav {
+          justify-content: center;
+        }
+      }
+
+      nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      nav button {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.5rem;
+        transition: color 0.2s;
+        border-bottom: 2px solid transparent;
+      }
+
+      nav button:hover,
+      nav button.active {
+        color: var(--accent-blue);
+        border-bottom-color: var(--accent-blue);
+      }
+
+      /* Main Container */
+      main {
+        width: 100%;
+        max-width: 800px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        overflow-y: auto;
+        flex-grow: 1;
+      }
+
+      .view {
+        display: none;
+        width: 100%;
+      }
+
+      .view.active {
+        display: block;
+      }
+
+      .jp {
+        font-family: 'Noto Sans JP', sans-serif;
+      }
+
+      h1 {
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+      }
+
+      h2 {
+        margin: 1.5rem 0 1rem 0;
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        text-align: left;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 0.5rem;
+      }
+
+      .flash-card {
+        font-weight: 700;
+        margin: 0.5rem 0;
+        color: white;
+        transition: font-size 0.2s;
+        font-size: 4rem;
+      }
+
+      .counter {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
+      }
+
+      /* Input Group */
+      .input-group {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      input[type="text"] {
+        flex-grow: 1;
+        font-size: 1.2rem;
+        padding: 0.8rem;
+        border-radius: 8px;
+        border: 2px solid #475569;
+        background-color: var(--bg-panel);
+        color: white;
+        text-align: center;
+        outline: none;
+        min-width: 0;
+      }
+
+      input[type="text"]:focus {
+        border-color: var(--accent-blue);
+      }
+
+      .btn {
+        background-color: var(--accent-blue);
+        color: var(--bg-dark);
+        border: none;
+        padding: 0.8rem 1.2rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+      }
+
+      .btn:hover {
+        background-color: var(--accent-hover);
+        color: white;
+      }
+
+      .feedback {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0.5rem 0;
+        min-height: 3rem;
+      }
+
+      .correct {
+        color: var(--correct-green);
+      }
+
+      .wrong {
+        color: var(--wrong-red);
+      }
+
+      /* Multiple Choice Grid */
+      .choice-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+        margin-top: 0.5rem;
+      }
+
+      .choice-btn {
+        background-color: var(--bg-panel);
+        border: 2px solid #475569;
+        color: white;
+        padding: 1rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .choice-btn:hover {
+        border-color: var(--accent-blue);
+      }
+
+      .choice-btn.correct-choice {
+        background-color: var(--correct-green);
+        border-color: var(--correct-green);
+        color: var(--bg-dark);
+      }
+
+      .choice-btn.wrong-choice {
+        background-color: var(--wrong-red);
+        border-color: var(--wrong-red);
+        color: white;
+      }
+
+      /* Reference Grid & Flags */
+      .ref-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 0.8rem;
+      }
+
+      .ref-card {
+        position: relative;
+        background-color: var(--duo-card);
+        border: 2px solid transparent;
+        border-bottom: 4px solid var(--duo-border);
+        border-radius: 10px;
+        padding: 1rem 0.5rem;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.1s;
+      }
+
+      .ref-card:active {
+        transform: translateY(2px);
+        border-bottom-width: 2px;
+      }
+
+      .ref-card .kana {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #facc15;
+      }
+
+      .ref-card .romaji {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 0.2rem;
+      }
+
+      .flag-btn {
+        position: absolute;
+        top: 0.1rem;
+        right: 0.2rem;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        color: #475569;
+        cursor: pointer;
+        padding: 0.2rem;
+      }
+
+      .flag-btn.active {
+        color: #facc15;
+        text-shadow: 0 0 5px rgba(250, 204, 21, 0.5);
+      }
+
+      /* Kanji Modal */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+      }
+
+      .modal-content {
+        background: var(--bg-panel);
+        padding: 2rem;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        text-align: left;
+        position: relative;
+        border: 1px solid #334155;
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .modal-kanji {
+        font-size: 5rem;
+        text-align: center;
+        color: var(--accent-blue);
+        margin-bottom: 0.5rem;
+      }
+
+      .modal-meaning {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: white;
+      }
+
+      .modal-details p {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+      }
+
+      .modal-details span {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .vocab-list {
+        margin-top: 1.5rem;
+        border-top: 1px solid #334155;
+        padding-top: 1rem;
+        max-height: 150px;
+        overflow-y: auto;
+      }
+
+      .vocab-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+        font-size: 1.1rem;
+      }
+
+      .vocab-item .v-kanji {
+        color: var(--correct-green);
+        font-weight: bold;
+      }
+
+      .vocab-item .v-reading {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+      }
+
+      /* Audio Buttons */
+      .audio-btn {
+        background-color: var(--bg-panel);
+        border: 2px solid var(--accent-blue);
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0.5rem auto;
+        cursor: pointer;
+      }
+
+      .audio-btn svg {
+        width: 30px;
+        height: 30px;
+        fill: var(--accent-blue);
+      }
+
+      .small-audio-btn {
+        background: none;
+        border: 2px solid var(--accent-blue);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .small-audio-btn svg {
+        width: 20px;
+        height: 20px;
+        fill: var(--accent-blue);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- LANDING PAGE -->
+    <div id="landing-view" class="view active">
+      <h1 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--accent-blue);">Choose Your Path</h1>
+      <button class="lang-btn" onclick="initApp('hiragana')">Hiragana <span>あ</span>
+      </button>
+      <button class="lang-btn" onclick="initApp('katakana')">Katakana <span>ア</span>
+      </button>
+      <button class="lang-btn" onclick="initApp('kanji')">JLPT N5 Kanji <span>水</span>
+      </button>
+    </div>
+    <!-- MAIN APP CONTAINER -->
+    <div id="app-container" style="display: none; width: 100%; height: 100%; flex-direction: column;">
+      <nav>
+        <button onclick="goHome()" style="color: #f87171;">⬅️ Menu</button>
+        <button onclick="showView('ref')" id="nav-ref" class="active">Dictionary</button>
+        <button onclick="startMode(1)" id="nav-mode1">Mode 1: Char</button>
+        <button onclick="startMode(2)" id="nav-mode2">Mode 2: Word</button>
+        <button onclick="startMode(3)" id="nav-mode3">Mode 3: Hear Char</button>
+        <button onclick="startMode(4)" id="nav-mode4">Mode 4: Hear Word</button>
+        <button onclick="startFlaggedMode()" id="nav-flagged" style="color: #facc15;">★ Endless Flagged</button>
+      </nav>
+      <main>
+        <!-- REFERENCE VIEW -->
+        <div id="ref-view" class="view active">
+          <h1 id="ref-title">Dictionary</h1>
+          <p id="ref-desc" style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;"></p>
+          <div id="reference-container" class="ref-grid"></div>
+        </div>
+        <!-- TYPE INPUT VIEW (Mode 1 & 2) -->
+        <div id="type-view" class="view">
+          <h1 id="type-title">Mode</h1>
+          <div class="counter" id="type-counter-global" style="color: var(--accent-blue); font-weight:bold;">Progress: 0/0</div>
+          <div class="counter" id="type-counter">1/10</div>
+          <div class="flash-card jp" id="type-flash"></div>
+          <button class="small-audio-btn" id="type-audio-btn" onclick="playCurrentAudio()" style="display:none;">
+            <svg viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+          <div class="input-group">
+            <input type="text" id="type-input" placeholder="Type here..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button class="btn" id="type-submit" onclick="checkTypeAnswer()">Submit</button>
+            <button class="btn" id="type-next" onclick="nextQuestion()" style="display:none;">Next</button>
+          </div>
+          <div class="feedback" id="type-feedback"></div>
+        </div>
+        <!-- MULTIPLE CHOICE VIEW (Mode 3 & 4 + Kanji 1 & 3) -->
+        <div id="mc-view" class="view">
+          <h1 id="mc-title">Select Answer</h1>
+          <div class="counter" id="mc-counter-global" style="color: var(--accent-blue); font-weight:bold;">Progress: 0/0</div>
+          <div class="counter" id="mc-counter">1/10</div>
+          <div class="flash-card jp" id="mc-flash" style="display:none;"></div>
+          <button class="audio-btn" id="mc-audio-btn" onclick="playCurrentAudio()" style="display:none;">
+            <svg viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+          <div class="choice-grid" id="mc-choices"></div>
+          <button class="btn" id="mc-next" onclick="nextQuestion()" style="display:none; margin-top: 1rem; width: 100%; max-width: 350px;">Next</button>
+          <div class="feedback" id="mc-feedback"></div>
+        </div>
+        <!-- RESULTS VIEW -->
+        <div id="results-view" class="view">
+          <h1 id="results-heading">Set Complete!</h1>
+          <div class="flash-card" id="results-score" style="font-size: 3.5rem; margin: 1rem 0;">100%</div>
+          <p id="results-message" style="font-size: 1.1rem; margin-bottom: 2rem;"></p>
+          <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 300px; margin: 0 auto;">
+            <button class="btn" id="retest-btn" onclick="startRetest()" style="display:none;">Retest Mistakes</button>
+            <button class="btn" id="next-chunk-btn" onclick="loadNextChunk()" style="display:none;">Next 10 Questions</button>
+            <button class="btn" style="background-color: var(--bg-panel); border: 1px solid #475569; color: white;" onclick="showView('ref')">Back to Dictionary</button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- KANJI MODAL -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeModal(event, true)">×</button>
+        <div class="modal-kanji jp" id="m-kanji"></div>
+        <div class="modal-meaning" id="m-meaning"></div>
+        <div class="modal-details">
+          <p>
+            <span>Onyomi:</span>
+            <br>
+            <strong id="m-on"></strong>
+          </p>
+          <p>
+            <span>Kunyomi:</span>
+            <br>
+            <strong id="m-kun"></strong>
+          </p>
+        </div>
+        <div class="vocab-list" id="m-vocab"></div>
+      </div>
+    </div>
+    <script>
+      // --- COMPRESSED DATA BANKS ---
+      const d = {
+        hiragana: {
+          chars: [{
+            k: 'あ',
+            r: 'a'
+          }, {
+            k: 'い',
+            r: 'i'
+          }, {
+            k: 'う',
+            r: 'u'
+          }, {
+            k: 'え',
+            r: 'e'
+          }, {
+            k: 'お',
+            r: 'o'
+          }, {
+            k: 'か',
+            r: 'ka'
+          }, {
+            k: 'き',
+            r: 'ki'
+          }, {
+            k: 'く',
+            r: 'ku'
+          }, {
+            k: 'け',
+            r: 'ke'
+          }, {
+            k: 'こ',
+            r: 'ko'
+          }, {
+            k: 'さ',
+            r: 'sa'
+          }, {
+            k: 'し',
+            r: 'shi'
+          }, {
+            k: 'す',
+            r: 'su'
+          }, {
+            k: 'せ',
+            r: 'se'
+          }, {
+            k: 'そ',
+            r: 'so'
+          }, {
+            k: 'た',
+            r: 'ta'
+          }, {
+            k: 'ち',
+            r: 'chi'
+          }, {
+            k: 'つ',
+            r: 'tsu'
+          }, {
+            k: 'て',
+            r: 'te'
+          }, {
+            k: 'と',
+            r: 'to'
+          }, {
+            k: 'な',
+            r: 'na'
+          }, {
+            k: 'に',
+            r: 'ni'
+          }, {
+            k: 'ぬ',
+            r: 'nu'
+          }, {
+            k: 'ね',
+            r: 'ne'
+          }, {
+            k: 'の',
+            r: 'no'
+          }, {
+            k: 'は',
+            r: 'ha'
+          }, {
+            k: 'ひ',
+            r: 'hi'
+          }, {
+            k: 'ふ',
+            r: 'fu'
+          }, {
+            k: 'へ',
+            r: 'he'
+          }, {
+            k: 'ほ',
+            r: 'ho'
+          }, {
+            k: 'ま',
+            r: 'ma'
+          }, {
+            k: 'み',
+            r: 'mi'
+          }, {
+            k: 'む',
+            r: 'mu'
+          }, {
+            k: 'め',
+            r: 'me'
+          }, {
+            k: 'も',
+            r: 'mo'
+          }, {
+            k: 'や',
+            r: 'ya'
+          }, {
+            k: 'ゆ',
+            r: 'yu'
+          }, {
+            k: 'よ',
+            r: 'yo'
+          }, {
+            k: 'ら',
+            r: 'ra'
+          }, {
+            k: 'り',
+            r: 'ri'
+          }, {
+            k: 'る',
+            r: 'ru'
+          }, {
+            k: 'れ',
+            r: 're'
+          }, {
+            k: 'ろ',
+            r: 'ro'
+          }, {
+            k: 'わ',
+            r: 'wa'
+          }, {
+            k: 'を',
+            r: 'wo'
+          }, {
+            k: 'ん',
+            r: 'n'
+          }, {
+            k: 'が',
+            r: 'ga'
+          }, {
+            k: 'ぎ',
+            r: 'gi'
+          }, {
+            k: 'ぐ',
+            r: 'gu'
+          }, {
+            k: 'げ',
+            r: 'ge'
+          }, {
+            k: 'ご',
+            r: 'go'
+          }, {
+            k: 'ざ',
+            r: 'za'
+          }, {
+            k: 'じ',
+            r: 'ji'
+          }, {
+            k: 'ず',
+            r: 'zu'
+          }, {
+            k: 'ぜ',
+            r: 'ze'
+          }, {
+            k: 'ぞ',
+            r: 'zo'
+          }, {
+            k: 'だ',
+            r: 'da'
+          }, {
+            k: 'ぢ',
+            r: 'ji'
+          }, {
+            k: 'づ',
+            r: 'zu'
+          }, {
+            k: 'で',
+            r: 'de'
+          }, {
+            k: 'ど',
+            r: 'do'
+          }, {
+            k: 'ば',
+            r: 'ba'
+          }, {
+            k: 'び',
+            r: 'bi'
+          }, {
+            k: 'ぶ',
+            r: 'bu'
+          }, {
+            k: 'べ',
+            r: 'be'
+          }, {
+            k: 'ぼ',
+            r: 'bo'
+          }, {
+            k: 'ぱ',
+            r: 'pa'
+          }, {
+            k: 'ぴ',
+            r: 'pi'
+          }, {
+            k: 'ぷ',
+            r: 'pu'
+          }, {
+            k: 'ぺ',
+            r: 'pe'
+          }, {
+            k: 'ぽ',
+            r: 'po'
+          }, {
+            k: 'きゃ',
+            r: 'kya'
+          }, {
+            k: 'きゅ',
+            r: 'kyu'
+          }, {
+            k: 'きょ',
+            r: 'kyo'
+          }, {
+            k: 'ぎゃ',
+            r: 'gya'
+          }, {
+            k: 'ぎゅ',
+            r: 'gyu'
+          }, {
+            k: 'ぎょ',
+            r: 'gyo'
+          }, {
+            k: 'しゃ',
+            r: 'sha'
+          }, {
+            k: 'しゅ',
+            r: 'shu'
+          }, {
+            k: 'しょ',
+            r: 'sho'
+          }, {
+            k: 'じゃ',
+            r: 'ja'
+          }, {
+            k: 'じゅ',
+            r: 'ju'
+          }, {
+            k: 'じょ',
+            r: 'jo'
+          }, {
+            k: 'ちゃ',
+            r: 'cha'
+          }, {
+            k: 'ちゅ',
+            r: 'chu'
+          }, {
+            k: 'ちょ',
+            r: 'cho'
+          }, {
+            k: 'にゃ',
+            r: 'nya'
+          }, {
+            k: 'にゅ',
+            r: 'nyu'
+          }, {
+            k: 'にょ',
+            r: 'nyo'
+          }, {
+            k: 'ひゃ',
+            r: 'hya'
+          }, {
+            k: 'ひゅ',
+            r: 'hyu'
+          }, {
+            k: 'ひょ',
+            r: 'hyo'
+          }, {
+            k: 'びゃ',
+            r: 'bya'
+          }, {
+            k: 'びゅ',
+            r: 'byu'
+          }, {
+            k: 'びょ',
+            r: 'byo'
+          }, {
+            k: 'ぴゃ',
+            r: 'pya'
+          }, {
+            k: 'ぴゅ',
+            r: 'pyu'
+          }, {
+            k: 'ぴょ',
+            r: 'pyo'
+          }, {
+            k: 'みゃ',
+            r: 'mya'
+          }, {
+            k: 'みゅ',
+            r: 'myu'
+          }, {
+            k: 'みょ',
+            r: 'myo'
+          }, {
+            k: 'りゃ',
+            r: 'rya'
+          }, {
+            k: 'りゅ',
+            r: 'ryu'
+          }, {
+            k: 'りょ',
+            r: 'ryo'
+          }, {
+            k: 'っか',
+            r: 'kka'
+          }, {
+            k: 'っさ',
+            r: 'ssa'
+          }, {
+            k: 'った',
+            r: 'tta'
+          }, {
+            k: 'っぱ',
+            r: 'ppa'
+          }, {
+            k: 'ああ',
+            r: 'aa'
+          }, {
+            k: 'いい',
+            r: 'ii'
+          }, {
+            k: 'うう',
+            r: 'uu'
+          }, {
+            k: 'ええ',
+            r: 'ee'
+          }, {
+            k: 'おお',
+            r: 'oo'
+          }, {
+            k: 'えい',
+            r: 'ei'
+          }, {
+            k: 'おう',
+            r: 'ou'
+          }],
+          words: [{
+            k: 'はい',
+            r: 'hai',
+            m: 'Yes'
+          }, {
+            k: 'いいえ',
+            r: 'iie',
+            m: 'No'
+          }, {
+            k: 'おはよう',
+            r: 'ohayou',
+            m: 'Good morning'
+          }, {
+            k: 'こんにちは',
+            r: 'konnichiwa',
+            m: 'Good afternoon / Hello'
+          }, {
+            k: 'こんばんは',
+            r: 'konbanwa',
+            m: 'Good evening'
+          }, {
+            k: 'ありがとう',
+            r: 'arigatou',
+            m: 'Thank you'
+          }, {
+            k: 'さようなら',
+            r: 'sayounara',
+            m: 'Goodbye'
+          }, {
+            k: 'すみません',
+            r: 'sumimasen',
+            m: 'Excuse me / Sorry'
+          }, {
+            k: 'おねがい',
+            r: 'onegai',
+            m: 'Please'
+          }, {
+            k: 'ごめんなさい',
+            r: 'gomennasai',
+            m: 'Sorry'
+          }, {
+            k: 'ひと',
+            r: 'hito',
+            m: 'Person'
+          }, {
+            k: 'おとこ',
+            r: 'otoko',
+            m: 'Man'
+          }, {
+            k: 'おんな',
+            r: 'onna',
+            m: 'Woman'
+          }, {
+            k: 'こども',
+            r: 'kodomo',
+            m: 'Child'
+          }, {
+            k: 'かぞく',
+            r: 'kazoku',
+            m: 'Family'
+          }, {
+            k: 'ともだち',
+            r: 'tomodachi',
+            m: 'Friend'
+          }, {
+            k: 'わたし',
+            r: 'watashi',
+            m: 'I / Me'
+          }, {
+            k: 'あなた',
+            r: 'anata',
+            m: 'You'
+          }, {
+            k: 'かれ',
+            r: 'kare',
+            m: 'He'
+          }, {
+            k: 'かのじょ',
+            r: 'kanojo',
+            m: 'She'
+          }, {
+            k: 'め',
+            r: 'me',
+            m: 'Eye'
+          }, {
+            k: 'みみ',
+            r: 'mimi',
+            m: 'Ear'
+          }, {
+            k: 'はな',
+            r: 'hana',
+            m: 'Nose / Flower'
+          }, {
+            k: 'くち',
+            r: 'kuchi',
+            m: 'Mouth'
+          }, {
+            k: 'て',
+            r: 'te',
+            m: 'Hand'
+          }, {
+            k: 'あし',
+            r: 'ashi',
+            m: 'Foot / Leg'
+          }, {
+            k: 'あたま',
+            r: 'atama',
+            m: 'Head'
+          }, {
+            k: 'かお',
+            r: 'kao',
+            m: 'Face'
+          }, {
+            k: 'からだ',
+            r: 'karada',
+            m: 'Body'
+          }, {
+            k: 'こころ',
+            r: 'kokoro',
+            m: 'Heart / Mind'
+          }, {
+            k: 'いぬ',
+            r: 'inu',
+            m: 'Dog'
+          }, {
+            k: 'ねこ',
+            r: 'neko',
+            m: 'Cat'
+          }, {
+            k: 'とり',
+            r: 'tori',
+            m: 'Bird'
+          }, {
+            k: 'さかな',
+            r: 'sakana',
+            m: 'Fish'
+          }, {
+            k: 'うし',
+            r: 'ushi',
+            m: 'Cow'
+          }, {
+            k: 'うま',
+            r: 'uma',
+            m: 'Horse'
+          }, {
+            k: 'ぶた',
+            r: 'buta',
+            m: 'Pig'
+          }, {
+            k: 'さる',
+            r: 'saru',
+            m: 'Monkey'
+          }, {
+            k: 'くま',
+            r: 'kuma',
+            m: 'Bear'
+          }, {
+            k: 'むし',
+            r: 'mushi',
+            m: 'Bug / Insect'
+          }, {
+            k: 'ひ',
+            r: 'hi',
+            m: 'Sun / Fire'
+          }, {
+            k: 'つき',
+            r: 'tsuki',
+            m: 'Moon'
+          }, {
+            k: 'ほし',
+            r: 'hoshi',
+            m: 'Star'
+          }, {
+            k: 'やま',
+            r: 'yama',
+            m: 'Mountain'
+          }, {
+            k: 'かわ',
+            r: 'kawa',
+            m: 'River'
+          }, {
+            k: 'うみ',
+            r: 'umi',
+            m: 'Sea / Ocean'
+          }, {
+            k: 'き',
+            r: 'ki',
+            m: 'Tree'
+          }, {
+            k: 'そら',
+            r: 'sora',
+            m: 'Sky'
+          }, {
+            k: 'みず',
+            r: 'mizu',
+            m: 'Water'
+          }, {
+            k: 'いし',
+            r: 'ishi',
+            m: 'Stone'
+          }, {
+            k: 'あめ',
+            r: 'ame',
+            m: 'Rain'
+          }, {
+            k: 'ゆき',
+            r: 'yuki',
+            m: 'Snow'
+          }, {
+            k: 'かぜ',
+            r: 'kaze',
+            m: 'Wind'
+          }, {
+            k: 'はれ',
+            r: 'hare',
+            m: 'Sunny'
+          }, {
+            k: 'くも',
+            r: 'kumo',
+            m: 'Cloud'
+          }, {
+            k: 'いま',
+            r: 'ima',
+            m: 'Now'
+          }, {
+            k: 'きょう',
+            r: 'kyou',
+            m: 'Today'
+          }, {
+            k: 'あした',
+            r: 'ashita',
+            m: 'Tomorrow'
+          }, {
+            k: 'きのう',
+            r: 'kinou',
+            m: 'Yesterday'
+          }, {
+            k: 'まいにち',
+            r: 'mainichi',
+            m: 'Every day'
+          }, {
+            k: 'たべもの',
+            r: 'tabemono',
+            m: 'Food'
+          }, {
+            k: 'のみもの',
+            r: 'nomimono',
+            m: 'Drink'
+          }, {
+            k: 'おちゃ',
+            r: 'ocha',
+            m: 'Tea'
+          }, {
+            k: 'ごはん',
+            r: 'gohan',
+            m: 'Rice / Meal'
+          }, {
+            k: 'にく',
+            r: 'niku',
+            m: 'Meat'
+          }, {
+            k: 'やさい',
+            r: 'yasai',
+            m: 'Vegetable'
+          }, {
+            k: 'くだもの',
+            r: 'kudamono',
+            m: 'Fruit'
+          }, {
+            k: 'たまご',
+            r: 'tamago',
+            m: 'Egg'
+          }, {
+            k: 'すし',
+            r: 'sushi',
+            m: 'Sushi'
+          }, {
+            k: 'しお',
+            r: 'shio',
+            m: 'Salt'
+          }, {
+            k: 'いえ',
+            r: 'ie',
+            m: 'House'
+          }, {
+            k: 'へや',
+            r: 'heya',
+            m: 'Room'
+          }, {
+            k: 'ほん',
+            r: 'hon',
+            m: 'Book'
+          }, {
+            k: 'つくえ',
+            r: 'tsukue',
+            m: 'Desk'
+          }, {
+            k: 'いす',
+            r: 'isu',
+            m: 'Chair'
+          }, {
+            k: 'かさ',
+            r: 'kasa',
+            m: 'Umbrella'
+          }, {
+            k: 'かばん',
+            r: 'kaban',
+            m: 'Bag'
+          }, {
+            k: 'くるま',
+            r: 'kuruma',
+            m: 'Car'
+          }, {
+            k: 'でんしゃ',
+            r: 'densha',
+            m: 'Train'
+          }, {
+            k: 'じてんしゃ',
+            r: 'jitensha',
+            m: 'Bicycle'
+          }, {
+            k: 'おおきい',
+            r: 'ookii',
+            m: 'Big'
+          }, {
+            k: 'ちいさい',
+            r: 'chiisai',
+            m: 'Small'
+          }, {
+            k: 'たかい',
+            r: 'takai',
+            m: 'High / Expensive'
+          }, {
+            k: 'やすい',
+            r: 'yasui',
+            m: 'Cheap'
+          }, {
+            k: 'あたらしい',
+            r: 'atarashii',
+            m: 'New'
+          }, {
+            k: 'ふるい',
+            r: 'furui',
+            m: 'Old'
+          }, {
+            k: 'いい',
+            r: 'ii',
+            m: 'Good'
+          }, {
+            k: 'わるい',
+            r: 'warui',
+            m: 'Bad'
+          }, {
+            k: 'あつい',
+            r: 'atsui',
+            m: 'Hot'
+          }, {
+            k: 'さむい',
+            r: 'samui',
+            m: 'Cold'
+          }, {
+            k: 'たべる',
+            r: 'taberu',
+            m: 'Eat'
+          }, {
+            k: 'のむ',
+            r: 'nomu',
+            m: 'Drink'
+          }, {
+            k: 'いく',
+            r: 'iku',
+            m: 'Go'
+          }, {
+            k: 'くる',
+            r: 'kuru',
+            m: 'Come'
+          }, {
+            k: 'する',
+            r: 'suru',
+            m: 'Do'
+          }, {
+            k: 'みる',
+            r: 'miru',
+            m: 'See / Watch'
+          }, {
+            k: 'きく',
+            r: 'kiku',
+            m: 'Listen / Hear'
+          }, {
+            k: 'はなす',
+            r: 'hanasu',
+            m: 'Speak'
+          }, {
+            k: 'かく',
+            r: 'kaku',
+            m: 'Write'
+          }, {
+            k: 'よむ',
+            r: 'yomu',
+            m: 'Read'
+          }]
+        },
+        katakana: {
+          chars: [{
+            k: 'ア',
+            r: 'a'
+          }, {
+            k: 'イ',
+            r: 'i'
+          }, {
+            k: 'ウ',
+            r: 'u'
+          }, {
+            k: 'エ',
+            r: 'e'
+          }, {
+            k: 'オ',
+            r: 'o'
+          }, {
+            k: 'カ',
+            r: 'ka'
+          }, {
+            k: 'キ',
+            r: 'ki'
+          }, {
+            k: 'ク',
+            r: 'ku'
+          }, {
+            k: 'ケ',
+            r: 'ke'
+          }, {
+            k: 'コ',
+            r: 'ko'
+          }, {
+            k: 'サ',
+            r: 'sa'
+          }, {
+            k: 'シ',
+            r: 'shi'
+          }, {
+            k: 'ス',
+            r: 'su'
+          }, {
+            k: 'セ',
+            r: 'se'
+          }, {
+            k: 'ソ',
+            r: 'so'
+          }, {
+            k: 'タ',
+            r: 'ta'
+          }, {
+            k: 'チ',
+            r: 'chi'
+          }, {
+            k: 'ツ',
+            r: 'tsu'
+          }, {
+            k: 'テ',
+            r: 'te'
+          }, {
+            k: 'ト',
+            r: 'to'
+          }, {
+            k: 'ナ',
+            r: 'na'
+          }, {
+            k: 'ニ',
+            r: 'ni'
+          }, {
+            k: 'ヌ',
+            r: 'nu'
+          }, {
+            k: 'ネ',
+            r: 'ne'
+          }, {
+            k: 'ノ',
+            r: 'no'
+          }, {
+            k: 'ハ',
+            r: 'ha'
+          }, {
+            k: 'ヒ',
+            r: 'hi'
+          }, {
+            k: 'フ',
+            r: 'fu'
+          }, {
+            k: 'ヘ',
+            r: 'he'
+          }, {
+            k: 'ホ',
+            r: 'ho'
+          }, {
+            k: 'マ',
+            r: 'ma'
+          }, {
+            k: 'ミ',
+            r: 'mi'
+          }, {
+            k: 'ム',
+            r: 'mu'
+          }, {
+            k: 'メ',
+            r: 'me'
+          }, {
+            k: 'モ',
+            r: 'mo'
+          }, {
+            k: 'ヤ',
+            r: 'ya'
+          }, {
+            k: 'ユ',
+            r: 'yu'
+          }, {
+            k: 'ヨ',
+            r: 'yo'
+          }, {
+            k: 'ラ',
+            r: 'ra'
+          }, {
+            k: 'リ',
+            r: 'ri'
+          }, {
+            k: 'ル',
+            r: 'ru'
+          }, {
+            k: 'レ',
+            r: 're'
+          }, {
+            k: 'ロ',
+            r: 'ro'
+          }, {
+            k: 'ワ',
+            r: 'wa'
+          }, {
+            k: 'ヲ',
+            r: 'wo'
+          }, {
+            k: 'ン',
+            r: 'n'
+          }, {
+            k: 'ガ',
+            r: 'ga'
+          }, {
+            k: 'ギ',
+            r: 'gi'
+          }, {
+            k: 'グ',
+            r: 'gu'
+          }, {
+            k: 'ゲ',
+            r: 'ge'
+          }, {
+            k: 'ゴ',
+            r: 'go'
+          }, {
+            k: 'ザ',
+            r: 'za'
+          }, {
+            k: 'ジ',
+            r: 'ji'
+          }, {
+            k: 'ズ',
+            r: 'zu'
+          }, {
+            k: 'ゼ',
+            r: 'ze'
+          }, {
+            k: 'ゾ',
+            r: 'zo'
+          }, {
+            k: 'ダ',
+            r: 'da'
+          }, {
+            k: 'ヂ',
+            r: 'ji'
+          }, {
+            k: 'ヅ',
+            r: 'zu'
+          }, {
+            k: 'デ',
+            r: 'de'
+          }, {
+            k: 'ド',
+            r: 'do'
+          }, {
+            k: 'バ',
+            r: 'ba'
+          }, {
+            k: 'ビ',
+            r: 'bi'
+          }, {
+            k: 'ブ',
+            r: 'bu'
+          }, {
+            k: 'ベ',
+            r: 'be'
+          }, {
+            k: 'ボ',
+            r: 'bo'
+          }, {
+            k: 'パ',
+            r: 'pa'
+          }, {
+            k: 'ピ',
+            r: 'pi'
+          }, {
+            k: 'プ',
+            r: 'pu'
+          }, {
+            k: 'ペ',
+            r: 'pe'
+          }, {
+            k: 'ポ',
+            r: 'po'
+          }, {
+            k: 'キャ',
+            r: 'kya'
+          }, {
+            k: 'キュ',
+            r: 'kyu'
+          }, {
+            k: 'キョ',
+            r: 'kyo'
+          }, {
+            k: 'ギャ',
+            r: 'gya'
+          }, {
+            k: 'ギュ',
+            r: 'gyu'
+          }, {
+            k: 'ギョ',
+            r: 'gyo'
+          }, {
+            k: 'シャ',
+            r: 'sha'
+          }, {
+            k: 'シュ',
+            r: 'shu'
+          }, {
+            k: 'ショ',
+            r: 'sho'
+          }, {
+            k: 'ジャ',
+            r: 'ja'
+          }, {
+            k: 'ジュ',
+            r: 'ju'
+          }, {
+            k: 'ジョ',
+            r: 'jo'
+          }, {
+            k: 'チャ',
+            r: 'cha'
+          }, {
+            k: 'チュ',
+            r: 'chu'
+          }, {
+            k: 'チョ',
+            r: 'cho'
+          }, {
+            k: 'ニャ',
+            r: 'nya'
+          }, {
+            k: 'ニュ',
+            r: 'nyu'
+          }, {
+            k: 'ニョ',
+            r: 'nyo'
+          }, {
+            k: 'ヒャ',
+            r: 'hya'
+          }, {
+            k: 'ヒュ',
+            r: 'hyu'
+          }, {
+            k: 'ヒョ',
+            r: 'hyo'
+          }, {
+            k: 'ビャ',
+            r: 'bya'
+          }, {
+            k: 'ビュ',
+            r: 'byu'
+          }, {
+            k: 'ビョ',
+            r: 'byo'
+          }, {
+            k: 'ピャ',
+            r: 'pya'
+          }, {
+            k: 'ピュ',
+            r: 'pyu'
+          }, {
+            k: 'ピョ',
+            r: 'pyo'
+          }, {
+            k: 'ミャ',
+            r: 'mya'
+          }, {
+            k: 'ミュ',
+            r: 'myu'
+          }, {
+            k: 'ミョ',
+            r: 'myo'
+          }, {
+            k: 'リャ',
+            r: 'rya'
+          }, {
+            k: 'リュ',
+            r: 'ryu'
+          }, {
+            k: 'リョ',
+            r: 'ryo'
+          }, {
+            k: 'ッカ',
+            r: 'kka'
+          }, {
+            k: 'ッサ',
+            r: 'ssa'
+          }, {
+            k: 'ッタ',
+            r: 'tta'
+          }, {
+            k: 'ッパ',
+            r: 'ppa'
+          }, {
+            k: 'アー',
+            r: 'aa'
+          }, {
+            k: 'イー',
+            r: 'ii'
+          }, {
+            k: 'ウー',
+            r: 'uu'
+          }, {
+            k: 'エー',
+            r: 'ee'
+          }, {
+            k: 'オー',
+            r: 'oo'
+          }],
+          words: [{
+            k: 'コーヒー',
+            r: 'koohii',
+            m: 'Coffee'
+          }, {
+            k: 'パン',
+            r: 'pan',
+            m: 'Bread'
+          }, {
+            k: 'チーズ',
+            r: 'chiizu',
+            m: 'Cheese'
+          }, {
+            k: 'ケーキ',
+            r: 'keeki',
+            m: 'Cake'
+          }, {
+            k: 'ジュース',
+            r: 'juusu',
+            m: 'Juice'
+          }, {
+            k: 'ミルク',
+            r: 'miruku',
+            m: 'Milk'
+          }, {
+            k: 'バター',
+            r: 'bataa',
+            m: 'Butter'
+          }, {
+            k: 'アイス',
+            r: 'aisu',
+            m: 'Ice / Ice Cream'
+          }, {
+            k: 'サラダ',
+            r: 'sarada',
+            m: 'Salad'
+          }, {
+            k: 'トマト',
+            r: 'tomato',
+            m: 'Tomato'
+          }, {
+            k: 'カメラ',
+            r: 'kamera',
+            m: 'Camera'
+          }, {
+            k: 'テレビ',
+            r: 'terebi',
+            m: 'TV / Television'
+          }, {
+            k: 'ラジオ',
+            r: 'rajio',
+            m: 'Radio'
+          }, {
+            k: 'パソコン',
+            r: 'pasokon',
+            m: 'PC / Computer'
+          }, {
+            k: 'スマホ',
+            r: 'sumaho',
+            m: 'Smartphone'
+          }, {
+            k: 'インターネット',
+            r: 'intaanetto',
+            m: 'Internet'
+          }, {
+            k: 'ゲーム',
+            r: 'geemu',
+            m: 'Game'
+          }, {
+            k: 'アプリ',
+            r: 'apuri',
+            m: 'App'
+          }, {
+            k: 'ニュース',
+            r: 'nyuusu',
+            m: 'News'
+          }, {
+            k: 'コピー',
+            r: 'kopii',
+            m: 'Copy'
+          }, {
+            k: 'トイレ',
+            r: 'toire',
+            m: 'Toilet / Restroom'
+          }, {
+            k: 'ベッド',
+            r: 'beddo',
+            m: 'Bed'
+          }, {
+            k: 'テーブル',
+            r: 'teeburu',
+            m: 'Table'
+          }, {
+            k: 'ソファ',
+            r: 'sofa',
+            m: 'Sofa'
+          }, {
+            k: 'ドア',
+            r: 'doa',
+            m: 'Door'
+          }, {
+            k: 'バス',
+            r: 'basu',
+            m: 'Bus'
+          }, {
+            k: 'タクシー',
+            r: 'takushii',
+            m: 'Taxi'
+          }, {
+            k: 'ホテル',
+            r: 'hoteru',
+            m: 'Hotel'
+          }, {
+            k: 'スーパー',
+            r: 'suupaa',
+            m: 'Supermarket'
+          }, {
+            k: 'コンビニ',
+            r: 'konbini',
+            m: 'Convenience Store'
+          }, {
+            k: 'レストラン',
+            r: 'resutoran',
+            m: 'Restaurant'
+          }, {
+            k: 'ビル',
+            r: 'biru',
+            m: 'Building'
+          }, {
+            k: 'アパート',
+            r: 'apaato',
+            m: 'Apartment'
+          }, {
+            k: 'エレベーター',
+            r: 'erebeetaa',
+            m: 'Elevator'
+          }, {
+            k: 'エスカレーター',
+            r: 'esukareetaa',
+            m: 'Escalator'
+          }, {
+            k: 'シャツ',
+            r: 'shatsu',
+            m: 'Shirt'
+          }, {
+            k: 'パンツ',
+            r: 'pantsu',
+            m: 'Pants'
+          }, {
+            k: 'スカート',
+            r: 'sukaato',
+            m: 'Skirt'
+          }, {
+            k: 'ドレス',
+            r: 'doresu',
+            m: 'Dress'
+          }, {
+            k: 'コート',
+            r: 'kooto',
+            m: 'Coat'
+          }, {
+            k: 'セーター',
+            r: 'seetaa',
+            m: 'Sweater'
+          }, {
+            k: 'ネクタイ',
+            r: 'nekutai',
+            m: 'Necktie'
+          }, {
+            k: 'ブーツ',
+            r: 'buutsu',
+            m: 'Boots'
+          }, {
+            k: 'バッグ',
+            r: 'baggu',
+            m: 'Bag'
+          }, {
+            k: 'グラス',
+            r: 'gurasu',
+            m: 'Glass / Glasses'
+          }, {
+            k: 'ペン',
+            r: 'pen',
+            m: 'Pen'
+          }, {
+            k: 'ノート',
+            r: 'nooto',
+            m: 'Notebook'
+          }, {
+            k: 'テスト',
+            r: 'tesuto',
+            m: 'Test'
+          }, {
+            k: 'クラス',
+            r: 'kurasu',
+            m: 'Class'
+          }, {
+            k: 'ルール',
+            r: 'ruuru',
+            m: 'Rule'
+          }, {
+            k: 'ページ',
+            r: 'peeji',
+            m: 'Page'
+          }, {
+            k: 'メモ',
+            r: 'memo',
+            m: 'Memo'
+          }, {
+            k: 'サイン',
+            r: 'sain',
+            m: 'Sign / Signature'
+          }, {
+            k: 'スポーツ',
+            r: 'supootsu',
+            m: 'Sports'
+          }, {
+            k: 'テニス',
+            r: 'tenisu',
+            m: 'Tennis'
+          }, {
+            k: 'ゴルフ',
+            r: 'gorufu',
+            m: 'Golf'
+          }, {
+            k: 'サッカー',
+            r: 'sakkaa',
+            m: 'Soccer'
+          }, {
+            k: 'スキー',
+            r: 'sukii',
+            m: 'Skiing'
+          }, {
+            k: 'プール',
+            r: 'puuru',
+            m: 'Pool'
+          }, {
+            k: 'チーム',
+            r: 'chiimu',
+            m: 'Team'
+          }, {
+            k: 'マッチ',
+            r: 'macchi',
+            m: 'Match'
+          }, {
+            k: 'ファン',
+            r: 'fan',
+            m: 'Fan'
+          }, {
+            k: 'ギター',
+            r: 'gitaa',
+            m: 'Guitar'
+          }, {
+            k: 'ピアノ',
+            r: 'piano',
+            m: 'Piano'
+          }, {
+            k: 'コンサート',
+            r: 'konsaato',
+            m: 'Concert'
+          }, {
+            k: 'バンド',
+            r: 'bando',
+            m: 'Band'
+          }, {
+            k: 'ダンス',
+            r: 'dansu',
+            m: 'Dance'
+          }, {
+            k: 'ソング',
+            r: 'songu',
+            m: 'Song'
+          }, {
+            k: 'リズム',
+            r: 'rizumu',
+            m: 'Rhythm'
+          }, {
+            k: 'ジャズ',
+            r: 'jazu',
+            m: 'Jazz'
+          }, {
+            k: 'アメリカ',
+            r: 'amerika',
+            m: 'America'
+          }, {
+            k: 'イギリス',
+            r: 'igirisu',
+            m: 'UK / England'
+          }, {
+            k: 'フランス',
+            r: 'furansu',
+            m: 'France'
+          }, {
+            k: 'ドイツ',
+            r: 'doitsu',
+            m: 'Germany'
+          }, {
+            k: 'イタリア',
+            r: 'itaria',
+            m: 'Italy'
+          }, {
+            k: 'スペイン',
+            r: 'supein',
+            m: 'Spain'
+          }, {
+            k: 'ロシア',
+            r: 'roshia',
+            m: 'Russia'
+          }, {
+            k: 'カナダ',
+            r: 'kanada',
+            m: 'Canada'
+          }, {
+            k: 'オーストラリア',
+            r: 'oosutoraria',
+            m: 'Australia'
+          }, {
+            k: 'インド',
+            r: 'indo',
+            m: 'India'
+          }, {
+            k: 'グラム',
+            r: 'guramu',
+            m: 'Gram'
+          }, {
+            k: 'キロ',
+            r: 'kiro',
+            m: 'Kilo'
+          }, {
+            k: 'センチ',
+            r: 'senchi',
+            m: 'Centimeter'
+          }, {
+            k: 'メートル',
+            r: 'meetoru',
+            m: 'Meter'
+          }, {
+            k: 'リットル',
+            r: 'rittoru',
+            m: 'Liter'
+          }, {
+            k: 'ゼロ',
+            r: 'zero',
+            m: 'Zero'
+          }, {
+            k: 'カレンダー',
+            r: 'karendaa',
+            m: 'Calendar'
+          }, {
+            k: 'パーティー',
+            r: 'paatii',
+            m: 'Party'
+          }, {
+            k: 'プレゼント',
+            r: 'purezento',
+            m: 'Present'
+          }, {
+            k: 'クリスマス',
+            r: 'kurisumasu',
+            m: 'Christmas'
+          }, {
+            k: 'アルバイト',
+            r: 'arubaito',
+            m: 'Part-time job'
+          }, {
+            k: 'クレジット',
+            r: 'kurejitto',
+            m: 'Credit'
+          }, {
+            k: 'サービス',
+            r: 'saabisu',
+            m: 'Service'
+          }, {
+            k: 'デザイン',
+            r: 'dezain',
+            m: 'Design'
+          }, {
+            k: 'システム',
+            r: 'shisutemu',
+            m: 'System'
+          }, {
+            k: 'トラブル',
+            r: 'toraburu',
+            m: 'Trouble'
+          }, {
+            k: 'ストレス',
+            r: 'sutoresu',
+            m: 'Stress'
+          }, {
+            k: 'ショック',
+            r: 'shokku',
+            m: 'Shock'
+          }, {
+            k: 'チャンス',
+            r: 'chansu',
+            m: 'Chance'
+          }, {
+            k: 'アイデア',
+            r: 'aidea',
+            m: 'Idea'
+          }]
+        },
+        kanji: {
+          chars: [{
+            k: '一',
+            m: 'One',
+            on: 'イチ',
+            kun: 'ひと',
+            v: [{
+              w: '一つ',
+              r: 'hitotsu',
+              m: 'One thing'
+            }, {
+              w: '一日',
+              r: 'ichinichi',
+              m: 'One day'
+            }]
+          }, {
+            k: '二',
+            m: 'Two',
+            on: 'ニ',
+            kun: 'ふた',
+            v: [{
+              w: '二つ',
+              r: 'futatsu',
+              m: 'Two things'
+            }, {
+              w: '二人',
+              r: 'futari',
+              m: 'Two people'
+            }]
+          }, {
+            k: '三',
+            m: 'Three',
+            on: 'サン',
+            kun: 'みっ',
+            v: [{
+              w: '三つ',
+              r: 'mittsu',
+              m: 'Three things'
+            }, {
+              w: '三日',
+              r: 'mikka',
+              m: '3rd day'
+            }]
+          }, {
+            k: '四',
+            m: 'Four',
+            on: 'シ',
+            kun: 'よん',
+            v: [{
+              w: '四つ',
+              r: 'yottsu',
+              m: 'Four things'
+            }, {
+              w: '四月',
+              r: 'shigatsu',
+              m: 'April'
+            }]
+          }, {
+            k: '五',
+            m: 'Five',
+            on: 'ゴ',
+            kun: 'いつ',
+            v: [{
+              w: '五つ',
+              r: 'itsutsu',
+              m: 'Five things'
+            }, {
+              w: '五月',
+              r: 'gogatsu',
+              m: 'May'
+            }]
+          }, {
+            k: '六',
+            m: 'Six',
+            on: 'ロク',
+            kun: 'むっ',
+            v: [{
+              w: '六つ',
+              r: 'muttsu',
+              m: 'Six things'
+            }, {
+              w: '六日',
+              r: 'muika',
+              m: '6th day'
+            }]
+          }, {
+            k: '七',
+            m: 'Seven',
+            on: 'シチ',
+            kun: 'なな',
+            v: [{
+              w: '七つ',
+              r: 'nanatsu',
+              m: 'Seven things'
+            }, {
+              w: '七日',
+              r: 'nanoka',
+              m: '7th day'
+            }]
+          }, {
+            k: '八',
+            m: 'Eight',
+            on: 'ハチ',
+            kun: 'やっ',
+            v: [{
+              w: '八つ',
+              r: 'yattsu',
+              m: 'Eight things'
+            }, {
+              w: '八日',
+              r: 'youka',
+              m: '8th day'
+            }]
+          }, {
+            k: '九',
+            m: 'Nine',
+            on: 'キュウ',
+            kun: 'ここの',
+            v: [{
+              w: '九つ',
+              r: 'kokonotsu',
+              m: 'Nine things'
+            }, {
+              w: '九日',
+              r: 'kokonoka',
+              m: '9th day'
+            }]
+          }, {
+            k: '十',
+            m: 'Ten',
+            on: 'ジュウ',
+            kun: 'とお',
+            v: [{
+              w: '十',
+              r: 'too',
+              m: 'Ten things'
+            }, {
+              w: '十日',
+              r: 'tooka',
+              m: '10th day'
+            }]
+          }, {
+            k: '日',
+            m: 'Sun / Day',
+            on: 'ニチ',
+            kun: 'ひ',
+            v: [{
+              w: '日',
+              r: 'hi',
+              m: 'Sun / Day'
+            }, {
+              w: '日本',
+              r: 'nihon',
+              m: 'Japan'
+            }]
+          }, {
+            k: '月',
+            m: 'Moon / Month',
+            on: 'ゲツ',
+            kun: 'つき',
+            v: [{
+              w: '月',
+              r: 'tsuki',
+              m: 'Moon'
+            }, {
+              w: '今月',
+              r: 'kongetsu',
+              m: 'This month'
+            }]
+          }, {
+            k: '火',
+            m: 'Fire',
+            on: 'カ',
+            kun: 'ひ',
+            v: [{
+              w: '火',
+              r: 'hi',
+              m: 'Fire'
+            }, {
+              w: '火曜日',
+              r: 'kayoubi',
+              m: 'Tuesday'
+            }]
+          }, {
+            k: '水',
+            m: 'Water',
+            on: 'スイ',
+            kun: 'みず',
+            v: [{
+              w: '水',
+              r: 'mizu',
+              m: 'Water'
+            }, {
+              w: '水曜日',
+              r: 'suiyoubi',
+              m: 'Wednesday'
+            }]
+          }, {
+            k: '木',
+            m: 'Tree',
+            on: 'モク',
+            kun: 'き',
+            v: [{
+              w: '木',
+              r: 'ki',
+              m: 'Tree'
+            }, {
+              w: '木曜日',
+              r: 'mokuyoubi',
+              m: 'Thursday'
+            }]
+          }, {
+            k: '金',
+            m: 'Gold / Money',
+            on: 'キン',
+            kun: 'かね',
+            v: [{
+              w: 'お金',
+              r: 'okane',
+              m: 'Money'
+            }, {
+              w: '金曜日',
+              r: 'kinyoubi',
+              m: 'Friday'
+            }]
+          }, {
+            k: '土',
+            m: 'Earth',
+            on: 'ド',
+            kun: 'つち',
+            v: [{
+              w: '土',
+              r: 'tsuchi',
+              m: 'Earth'
+            }, {
+              w: '土曜日',
+              r: 'doyoubi',
+              m: 'Saturday'
+            }]
+          }, {
+            k: '山',
+            m: 'Mountain',
+            on: 'サン',
+            kun: 'やま',
+            v: [{
+              w: '山',
+              r: 'yama',
+              m: 'Mountain'
+            }, {
+              w: '富士山',
+              r: 'fujisan',
+              m: 'Mt. Fuji'
+            }]
+          }, {
+            k: '川',
+            m: 'River',
+            on: 'セン',
+            kun: 'かわ',
+            v: [{
+              w: '川',
+              r: 'kawa',
+              m: 'River'
+            }, {
+              w: '川口',
+              r: 'kawaguchi',
+              m: 'River mouth'
+            }]
+          }, {
+            k: '天',
+            m: 'Heaven',
+            on: 'テン',
+            kun: 'あま',
+            v: [{
+              w: '天気',
+              r: 'tenki',
+              m: 'Weather'
+            }, {
+              w: '天国',
+              r: 'tengoku',
+              m: 'Heaven'
+            }]
+          }, {
+            k: '空',
+            m: 'Sky',
+            on: 'クウ',
+            kun: 'そら',
+            v: [{
+              w: '空',
+              r: 'sora',
+              m: 'Sky'
+            }, {
+              w: '空気',
+              r: 'kuuki',
+              m: 'Air'
+            }]
+          }, {
+            k: '雨',
+            m: 'Rain',
+            on: 'ウ',
+            kun: 'あめ',
+            v: [{
+              w: '雨',
+              r: 'ame',
+              m: 'Rain'
+            }, {
+              w: '大雨',
+              r: 'ooame',
+              m: 'Heavy rain'
+            }]
+          }, {
+            k: '気',
+            m: 'Spirit',
+            on: 'キ',
+            kun: 'き',
+            v: [{
+              w: '元気',
+              r: 'genki',
+              m: 'Healthy / Energetic'
+            }, {
+              w: '天気',
+              r: 'tenki',
+              m: 'Weather'
+            }]
+          }, {
+            k: '人',
+            m: 'Person',
+            on: 'ジン',
+            kun: 'ひと',
+            v: [{
+              w: '人',
+              r: 'hito',
+              m: 'Person'
+            }, {
+              w: '日本人',
+              r: 'nihonjin',
+              m: 'Japanese person'
+            }]
+          }, {
+            k: '男',
+            m: 'Man',
+            on: 'ダン',
+            kun: 'おとこ',
+            v: [{
+              w: '男',
+              r: 'otoko',
+              m: 'Man'
+            }, {
+              w: '男の子',
+              r: 'otokonoko',
+              m: 'Boy'
+            }]
+          }, {
+            k: '女',
+            m: 'Woman',
+            on: 'ジョ',
+            kun: 'おんな',
+            v: [{
+              w: '女',
+              r: 'onna',
+              m: 'Woman'
+            }, {
+              w: '女の子',
+              r: 'onnanoko',
+              m: 'Girl'
+            }]
+          }, {
+            k: '子',
+            m: 'Child',
+            on: 'シ',
+            kun: 'こ',
+            v: [{
+              w: '子ども',
+              r: 'kodomo',
+              m: 'Child'
+            }, {
+              w: '女子',
+              r: 'joshi',
+              m: 'Girl / Female'
+            }]
+          }, {
+            k: '父',
+            m: 'Father',
+            on: 'フ',
+            kun: 'ちち',
+            v: [{
+              w: '父',
+              r: 'chichi',
+              m: 'My father'
+            }, {
+              w: 'お父さん',
+              r: 'otousan',
+              m: 'Father'
+            }]
+          }, {
+            k: '母',
+            m: 'Mother',
+            on: 'ボ',
+            kun: 'はは',
+            v: [{
+              w: '母',
+              r: 'haha',
+              m: 'My mother'
+            }, {
+              w: 'お母さん',
+              r: 'okaasan',
+              m: 'Mother'
+            }]
+          }, {
+            k: '友',
+            m: 'Friend',
+            on: 'ユウ',
+            kun: 'とも',
+            v: [{
+              w: '友だち',
+              r: 'tomodachi',
+              m: 'Friend'
+            }, {
+              w: '友人',
+              r: 'yuujin',
+              m: 'Friend (Formal)'
+            }]
+          }, {
+            k: '目',
+            m: 'Eye',
+            on: 'モク',
+            kun: 'め',
+            v: [{
+              w: '目',
+              r: 'me',
+              m: 'Eye'
+            }, {
+              w: '目玉',
+              r: 'medama',
+              m: 'Eyeball'
+            }]
+          }, {
+            k: '口',
+            m: 'Mouth',
+            on: 'コウ',
+            kun: 'くち',
+            v: [{
+              w: '口',
+              r: 'kuchi',
+              m: 'Mouth'
+            }, {
+              w: '入口',
+              r: 'iriguchi',
+              m: 'Entrance'
+            }]
+          }, {
+            k: '耳',
+            m: 'Ear',
+            on: 'ジ',
+            kun: 'みみ',
+            v: [{
+              w: '耳',
+              r: 'mimi',
+              m: 'Ear'
+            }, {
+              w: '耳鼻科',
+              r: 'jibika',
+              m: 'ENT clinic'
+            }]
+          }, {
+            k: '手',
+            m: 'Hand',
+            on: 'シュ',
+            kun: 'て',
+            v: [{
+              w: '手',
+              r: 'te',
+              m: 'Hand'
+            }, {
+              w: '上手',
+              r: 'jouzu',
+              m: 'Skillful'
+            }]
+          }, {
+            k: '足',
+            m: 'Foot / Leg',
+            on: 'ソク',
+            kun: 'あし',
+            v: [{
+              w: '足',
+              r: 'ashi',
+              m: 'Foot / Leg'
+            }, {
+              w: '足りる',
+              r: 'tariru',
+              m: 'To be enough'
+            }]
+          }, {
+            k: '大',
+            m: 'Big',
+            on: 'ダイ',
+            kun: 'おお',
+            v: [{
+              w: '大きい',
+              r: 'ookii',
+              m: 'Big'
+            }, {
+              w: '大学',
+              r: 'daigaku',
+              m: 'University'
+            }]
+          }, {
+            k: '小',
+            m: 'Small',
+            on: 'ショウ',
+            kun: 'ちい',
+            v: [{
+              w: '小さい',
+              r: 'chiisai',
+              m: 'Small'
+            }, {
+              w: '小学校',
+              r: 'shougakkou',
+              m: 'Elementary school'
+            }]
+          }, {
+            k: '高',
+            m: 'High',
+            on: 'コウ',
+            kun: 'たか',
+            v: [{
+              w: '高い',
+              r: 'takai',
+              m: 'High / Expensive'
+            }, {
+              w: '高校',
+              r: 'koukou',
+              m: 'High school'
+            }]
+          }, {
+            k: '安',
+            m: 'Cheap',
+            on: 'アン',
+            kun: 'やす',
+            v: [{
+              w: '安い',
+              r: 'yasui',
+              m: 'Cheap'
+            }, {
+              w: '安全',
+              r: 'anzen',
+              m: 'Safe'
+            }]
+          }, {
+            k: '新',
+            m: 'New',
+            on: 'シン',
+            kun: 'あたら',
+            v: [{
+              w: '新しい',
+              r: 'atarashii',
+              m: 'New'
+            }, {
+              w: '新聞',
+              r: 'shinbun',
+              m: 'Newspaper'
+            }]
+          }, {
+            k: '古',
+            m: 'Old',
+            on: 'コ',
+            kun: 'ふる',
+            v: [{
+              w: '古い',
+              r: 'furui',
+              m: 'Old'
+            }, {
+              w: '中古',
+              r: 'chuuko',
+              m: 'Used / Secondhand'
+            }]
+          }, {
+            k: '白',
+            m: 'White',
+            on: 'ハク',
+            kun: 'しろ',
+            v: [{
+              w: '白い',
+              r: 'shiroi',
+              m: 'White'
+            }, {
+              w: '白黒',
+              r: 'shirokuro',
+              m: 'Black and white'
+            }]
+          }, {
+            k: '黒',
+            m: 'Black',
+            on: 'コク',
+            kun: 'くろ',
+            v: [{
+              w: '黒い',
+              r: 'kuroi',
+              m: 'Black'
+            }, {
+              w: '黒板',
+              r: 'kokuban',
+              m: 'Blackboard'
+            }]
+          }, {
+            k: '長',
+            m: 'Long',
+            on: 'チョウ',
+            kun: 'なが',
+            v: [{
+              w: '長い',
+              r: 'nagai',
+              m: 'Long'
+            }, {
+              w: '社長',
+              r: 'shachou',
+              m: 'Company president'
+            }]
+          }, {
+            k: '多',
+            m: 'Many',
+            on: 'タ',
+            kun: 'おお',
+            v: [{
+              w: '多い',
+              r: 'ooi',
+              m: 'Many'
+            }, {
+              w: '多分',
+              r: 'tabun',
+              m: 'Probably'
+            }]
+          }, {
+            k: '少',
+            m: 'Few',
+            on: 'ショウ',
+            kun: 'すく',
+            v: [{
+              w: '少ない',
+              r: 'sukunai',
+              m: 'Few'
+            }, {
+              w: '少し',
+              r: 'sukoshi',
+              m: 'A little'
+            }]
+          }, {
+            k: '食',
+            m: 'Eat',
+            on: 'ショク',
+            kun: 'た',
+            v: [{
+              w: '食べる',
+              r: 'taberu',
+              m: 'To eat'
+            }, {
+              w: '食べ物',
+              r: 'tabemono',
+              m: 'Food'
+            }]
+          }, {
+            k: '飲',
+            m: 'Drink',
+            on: 'イン',
+            kun: 'の',
+            v: [{
+              w: '飲む',
+              r: 'nomu',
+              m: 'To drink'
+            }, {
+              w: '飲み物',
+              r: 'nomimono',
+              m: 'Drink'
+            }]
+          }, {
+            k: '見',
+            m: 'See',
+            on: 'ケン',
+            kun: 'み',
+            v: [{
+              w: '見る',
+              r: 'miru',
+              m: 'To see'
+            }, {
+              w: '見せる',
+              r: 'miseru',
+              m: 'To show'
+            }]
+          }, {
+            k: '行',
+            m: 'Go',
+            on: 'コウ',
+            kun: 'い',
+            v: [{
+              w: '行く',
+              r: 'iku',
+              m: 'To go'
+            }, {
+              w: '旅行',
+              r: 'ryokou',
+              m: 'Travel'
+            }]
+          }, {
+            k: '来',
+            m: 'Come',
+            on: 'ライ',
+            kun: 'く',
+            v: [{
+              w: '来る',
+              r: 'kuru',
+              m: 'To come'
+            }, {
+              w: '来年',
+              r: 'rainen',
+              m: 'Next year'
+            }]
+          }, {
+            k: '休',
+            m: 'Rest',
+            on: 'キュウ',
+            kun: 'やす',
+            v: [{
+              w: '休む',
+              r: 'yasumu',
+              m: 'To rest'
+            }, {
+              w: '休み',
+              r: 'yasumi',
+              m: 'Holiday / Break'
+            }]
+          }, {
+            k: '読',
+            m: 'Read',
+            on: 'ドク',
+            kun: 'よ',
+            v: [{
+              w: '読む',
+              r: 'yomu',
+              m: 'To read'
+            }, {
+              w: '読書',
+              r: 'dokusho',
+              m: 'Reading books'
+            }]
+          }, {
+            k: '書',
+            m: 'Write',
+            on: 'ショ',
+            kun: 'か',
+            v: [{
+              w: '書く',
+              r: 'kaku',
+              m: 'To write'
+            }, {
+              w: '辞書',
+              r: 'jisho',
+              m: 'Dictionary'
+            }]
+          }, {
+            k: '話',
+            m: 'Speak',
+            on: 'ワ',
+            kun: 'はな',
+            v: [{
+              w: '話す',
+              r: 'hanasu',
+              m: 'To speak'
+            }, {
+              w: '電話',
+              r: 'denwa',
+              m: 'Telephone'
+            }]
+          }, {
+            k: '買',
+            m: 'Buy',
+            on: 'バイ',
+            kun: 'か',
+            v: [{
+              w: '買う',
+              r: 'kau',
+              m: 'To buy'
+            }, {
+              w: '買い物',
+              r: 'kaimono',
+              m: 'Shopping'
+            }]
+          }]
+        }
+      };
+      let kanjiVocabFlat = [];
+      d.kanji.chars.forEach(kObj => {
+        kObj.v.forEach(w => kanjiVocabFlat.push(w));
+      });
+      // --- STATE ---
+      let state = {
+        lang: null,
+        mode: 0,
+        isChunked: false,
+        globalQueue: [],
+        globalIndex: 0,
+        queue: [],
+        wrongQueue: [],
+        currentIndex: 0,
+        correctCount: 0,
+        totalQuestions: 0,
+        currentQuestion: null,
+        answered: false
+      };
+      // Local Storage Flags
+      let flags = JSON.parse(localStorage.getItem('jp_flags')) || {
+        hiragana: [],
+        katakana: []
+      };
+      // --- AUDIO ---
+      function getVoice() {
+        return new Promise(res => {
+          let s = window.speechSynthesis;
+          let id = setInterval(() => {
+            if (s.getVoices().length !== 0) {
+              res(s.getVoices());
+              clearInterval(id);
+            }
+          }, 10);
+        });
+      }
+      async function playAudio(text) {
+        const s = window.speechSynthesis;
+        const v = await getVoice();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ja-JP';
+        const jp = v.find(x => x.lang.includes('ja'));
+        if (jp) u.voice = jp;
+        s.speak(u);
+      }
+
+      function playCurrentAudio() {
+        if (state.currentQuestion) playAudio(state.currentQuestion.w || state.currentQuestion.k);
+      }
+      // --- UTILS ---
+      function shuffle(arr) {
+        return arr.sort(() => Math.random() - 0.5);
+      }
+      document.getElementById("type-input").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          if (state.answered) nextQuestion();
+          else checkTypeAnswer();
+        }
+      });
+      // --- UI ROUTING ---
+      function goHome() {
+        document.getElementById('app-container').style.display = 'none';
+        document.getElementById('landing-view').style.display = 'flex';
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById('landing-view').classList.add('active');
+        state.lang = null;
+      }
+
+      function initApp(lang) {
+        state.lang = lang;
+        document.getElementById('landing-view').style.display = 'none';
+        document.getElementById('app-container').style.display = 'flex';
+        // Adjust Nav based on language
+        const navFlag = document.getElementById('nav-flagged');
+        if (lang === 'kanji') {
+          navFlag.style.display = 'none';
+          document.getElementById('nav-mode1').innerText = "Mode 1: Meaning (MC)";
+          document.getElementById('nav-mode2').innerText = "Mode 2: Reading (Type)";
+          document.getElementById('nav-mode3').innerText = "Mode 3: Kanji (MC)";
+        } else {
+          navFlag.style.display = 'inline-block';
+          document.getElementById('nav-mode1').innerText = "Mode 1: Char (Type Romaji)";
+          document.getElementById('nav-mode2').innerText = "Mode 2: Word (Type Meaning)";
+          document.getElementById('nav-mode3').innerText = "Mode 3: Hear Char (MC)";
+        }
+        showView('ref');
+        initDictionary();
+      }
+      // 🐛 BUG FIX: PROPERLY HIGHLIGHT NAVIGATION TABS
+      function showView(viewId) {
+        document.querySelectorAll('#app-container .view').forEach(v => v.classList.remove('active'));
+        document.getElementById(`${viewId}-view`).classList.add('active');
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        if (viewId === 'ref') {
+          document.getElementById('nav-ref').classList.add('active');
+        } else if (viewId !== 'results') {
+          if (state.mode === 'flagged') {
+            document.getElementById('nav-flagged').classList.add('active');
+          } else if (state.mode > 0) {
+            document.getElementById(`nav-mode${state.mode}`).classList.add('active');
+          }
+        }
+      }
+      // --- DICTIONARY ---
+      function toggleFlag(char, event) {
+        event.stopPropagation();
+        let list = flags[state.lang];
+        if (list.includes(char)) flags[state.lang] = list.filter(c => c !== char);
+        else flags[state.lang].push(char);
+        localStorage.setItem('jp_flags', JSON.stringify(flags));
+        initDictionary();
+      }
+
+      function initDictionary() {
+        const grid = document.getElementById('reference-container');
+        grid.innerHTML = '';
+        if (state.lang === 'kanji') {
+          document.getElementById('ref-title').innerText = "JLPT N5 Kanji";
+          document.getElementById('ref-desc').innerText = "Click to view readings and vocabulary.";
+          d.kanji.chars.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'ref-card';
+            div.innerHTML = `
+									<span class="kana jp">${item.k}</span>`;
+            div.onclick = () => openModal(item);
+            grid.appendChild(div);
+          });
+        } else {
+          document.getElementById('ref-title').innerText = state.lang === 'hiragana' ? "Hiragana" : "Katakana";
+          document.getElementById('ref-desc').innerText = "Click to hear. Click the star to flag for practice.";
+          d[state.lang].chars.forEach(item => {
+            const isFlagged = flags[state.lang].includes(item.k);
+            const div = document.createElement('div');
+            div.className = 'ref-card';
+            div.innerHTML = `
+                        
+									<button class="flag-btn ${isFlagged ? 'active' : ''}" onclick="toggleFlag('${item.k}', event)">★</button>
+									<span class="kana jp">${item.k}</span>
+									<span class="romaji">${item.r}</span>
+                    `;
+            div.onclick = () => playAudio(item.k);
+            grid.appendChild(div);
+          });
+        }
+      }
+
+      function openModal(item) {
+        document.getElementById('m-kanji').innerText = item.k;
+        document.getElementById('m-meaning').innerText = item.m;
+        document.getElementById('m-on').innerText = item.on || 'N/A';
+        document.getElementById('m-kun').innerText = item.kun || 'N/A';
+        const vList = document.getElementById('m-vocab');
+        vList.innerHTML = '';
+        item.v.forEach(v => {
+          vList.innerHTML += `
+									<div class="vocab-item">
+										<span>
+											<span class="v-kanji jp">${v.w}</span>
+											<span class="v-reading">(${v.r})</span>
+										</span>
+										<span>${v.m}</span>
+									</div>`;
+        });
+        document.getElementById('modal').style.display = 'flex';
+      }
+
+      function closeModal(e, force = false) {
+        if (force || e.target.id === 'modal') document.getElementById('modal').style.display = 'none';
+      }
+      // --- GAME LOGIC ---
+      function startMode(modeNum) {
+        state.mode = modeNum;
+        state.isChunked = true;
+        if (state.lang === 'kanji') {
+          state.globalQueue = (modeNum === 1 || modeNum === 3) ? shuffle([...d.kanji.chars]) : shuffle([...kanjiVocabFlat]);
+        } else {
+          state.globalQueue = (modeNum === 1 || modeNum === 3) ? shuffle([...d[state.lang].chars]) : shuffle([...d[state.lang].words]);
+        }
+        state.globalIndex = 0;
+        loadNextChunk();
+      }
+
+      function startFlaggedMode() {
+        let fList = flags[state.lang];
+        if (fList.length === 0) {
+          alert("Click the star (★) on characters in the dictionary to flag them first!");
+          return;
+        }
+        let queueObjs = d[state.lang].chars.filter(c => fList.includes(c.k));
+        state.mode = 'flagged';
+        state.isChunked = false;
+        state.queue = shuffle(queueObjs);
+        state.totalQuestions = state.queue.length;
+        state.currentIndex = 0;
+        state.wrongQueue = [];
+        showView('type');
+        document.getElementById('type-counter-global').innerText = `Endless Mode (Flagged: ${state.totalQuestions})`;
+        setupQuestion();
+      }
+
+      function loadNextChunk() {
+        let chunk = state.globalQueue.slice(state.globalIndex, state.globalIndex + 10);
+        state.globalIndex += chunk.length;
+        state.queue = chunk;
+        state.totalQuestions = state.queue.length;
+        state.wrongQueue = [];
+        state.currentIndex = 0;
+        state.correctCount = 0;
+        setupQuestion();
+      }
+
+      function startRetest() {
+        state.queue = shuffle([...state.wrongQueue]);
+        state.wrongQueue = [];
+        state.totalQuestions = state.queue.length;
+        state.currentIndex = 0;
+        state.correctCount = 0;
+        setupQuestion();
+      }
+
+      function setupQuestion() {
+        if (state.currentIndex >= state.queue.length) {
+          if (state.mode === 'flagged') {
+            state.queue = shuffle([...state.queue]);
+            state.currentIndex = 0;
+            state.wrongQueue = [];
+          } else {
+            showResults();
+            return;
+          }
+        }
+        state.currentQuestion = state.queue[state.currentIndex];
+        state.answered = false;
+        let isTypeView = false;
+        if (state.mode === 'flagged') isTypeView = true;
+        if (state.lang !== 'kanji' && (state.mode === 1 || state.mode === 2)) isTypeView = true;
+        if (state.lang === 'kanji' && state.mode === 2) isTypeView = true;
+        if (isTypeView) {
+          showView('type');
+          if (state.mode !== 'flagged' && state.isChunked) document.getElementById('type-counter-global').innerText = `Progress: ${Math.min(state.globalIndex, state.globalQueue.length)} / ${state.globalQueue.length}`;
+          document.getElementById('type-counter').innerText = `${state.currentIndex + 1} / ${state.totalQuestions}`;
+          let displayText = state.currentQuestion.k;
+          if ((state.lang === 'hiragana' || state.lang === 'katakana') && state.mode === 2) displayText = state.currentQuestion.k;
+          if (state.lang === 'kanji' && state.mode === 2) displayText = state.currentQuestion.w;
+          let flashEl = document.getElementById('type-flash');
+          flashEl.innerText = displayText;
+          flashEl.style.fontSize = (displayText.length > 2) ? "3rem" : "5rem";
+          let showAudio = false;
+          if (state.mode === 2) showAudio = true;
+          if (state.lang !== 'kanji' && state.mode === 2) playCurrentAudio();
+          document.getElementById('type-audio-btn').style.display = showAudio ? 'inline-flex' : 'none';
+          let title = "Type the Romaji";
+          let ph = "Romaji...";
+          if (state.lang !== 'kanji' && state.mode === 2) {
+            title = "Type the Meaning";
+            ph = "English Meaning...";
+          }
+          document.getElementById('type-title').innerText = title;
+          let inputEl = document.getElementById('type-input');
+          inputEl.placeholder = ph;
+          inputEl.value = '';
+          inputEl.style.borderColor = "#475569";
+          inputEl.focus();
+          document.getElementById('type-submit').style.display = 'inline-block';
+          document.getElementById('type-next').style.display = 'none';
+          document.getElementById('type-feedback').innerHTML = '';
+        } else {
+          showView('mc');
+          if (state.isChunked) document.getElementById('mc-counter-global').innerText = `Progress: ${Math.min(state.globalIndex, state.globalQueue.length)} / ${state.globalQueue.length}`;
+          document.getElementById('mc-counter').innerText = `${state.currentIndex + 1} / ${state.totalQuestions}`;
+          document.getElementById('mc-next').style.display = 'none';
+          document.getElementById('mc-feedback').innerHTML = '';
+          const flash = document.getElementById('mc-flash');
+          const aBtn = document.getElementById('mc-audio-btn');
+          if (state.lang === 'kanji') {
+            if (state.mode === 1) {
+              document.getElementById('mc-title').innerText = "Select Meaning";
+              flash.style.display = 'block';
+              aBtn.style.display = 'none';
+              flash.innerText = state.currentQuestion.k;
+            } else if (state.mode === 3) {
+              document.getElementById('mc-title').innerText = "Select Kanji";
+              flash.style.display = 'block';
+              aBtn.style.display = 'none';
+              flash.innerText = state.currentQuestion.m;
+            } else if (state.mode === 4) {
+              document.getElementById('mc-title').innerText = "Select Word";
+              flash.style.display = 'none';
+              aBtn.style.display = 'flex';
+              playCurrentAudio();
+            }
+          } else {
+            if (state.mode === 3) {
+              document.getElementById('mc-title').innerText = "Select Character";
+              flash.style.display = 'none';
+              aBtn.style.display = 'flex';
+              playCurrentAudio();
+            } else if (state.mode === 4) {
+              document.getElementById('mc-title').innerText = "Select Word";
+              flash.style.display = 'none';
+              aBtn.style.display = 'flex';
+              playCurrentAudio();
+            }
+          }
+          generateChoices();
+        }
+      }
+
+      function generateChoices() {
+        const grid = document.getElementById('mc-choices');
+        grid.innerHTML = '';
+        let choices = [state.currentQuestion];
+        let sourceArray = [];
+        if (state.lang === 'kanji') sourceArray = (state.mode === 1 || state.mode === 3) ? d.kanji.chars : kanjiVocabFlat;
+        else sourceArray = (state.mode === 3) ? d[state.lang].chars : d[state.lang].words;
+        while (choices.length < 4) {
+          let randomItem = sourceArray[Math.floor(Math.random() * sourceArray.length)];
+          if (!choices.includes(randomItem)) choices.push(randomItem);
+        }
+        shuffle(choices).forEach(choice => {
+          let btn = document.createElement('button');
+          btn.className = 'choice-btn jp';
+          if (state.lang === 'kanji') {
+            if (state.mode === 1) btn.innerText = choice.m;
+            else if (state.mode === 3) btn.innerText = choice.k;
+            else if (state.mode === 4) btn.innerText = choice.w;
+          } else {
+            btn.innerText = choice.k;
+          }
+          btn.style.fontSize = btn.innerText.length > 2 ? "1.2rem" : "2rem";
+          btn.onclick = () => checkMCAnswer(choice, btn);
+          grid.appendChild(btn);
+        });
+      }
+
+      function checkTypeAnswer() {
+        if (state.answered) return;
+        state.answered = true;
+        let input = document.getElementById('type-input').value.trim().toLowerCase();
+        const feedback = document.getElementById('type-feedback');
+        let isCorrect = false;
+        let validAnswers = [];
+        let extraMsg = "";
+        if (state.lang !== 'kanji' && state.mode === 2) {
+          validAnswers = state.currentQuestion.m.toLowerCase().split('/').map(s => s.trim());
+          isCorrect = validAnswers.some(ans => ans === input);
+          extraMsg = `
+									<br>
+										<span style="font-size:0.9rem; color:var(--text-muted)">Romaji: ${state.currentQuestion.r} 
+											<br> Meaning: ${state.currentQuestion.m}
+											</span>`;
+        } else {
+          isCorrect = (input === state.currentQuestion.r.toLowerCase());
+          if (state.lang === 'kanji' && state.mode === 2) extraMsg = `
+											<br>
+												<span style="font-size:0.9rem; color:var(--text-muted)">Meaning: ${state.currentQuestion.m}</span>`;
+        }
+        if (state.mode === 1 || state.mode === 'flagged') {
+          document.getElementById('type-audio-btn').style.display = 'inline-flex';
+          playCurrentAudio();
+        }
+        if (isCorrect) {
+          if (state.mode !== 'flagged') state.correctCount++;
+          document.getElementById('type-input').style.borderColor = "var(--correct-green)";
+          feedback.innerHTML = `
+												<span class="correct">Correct!</span>${extraMsg}`;
+        } else {
+          if (state.mode !== 'flagged') state.wrongQueue.push(state.currentQuestion);
+          document.getElementById('type-input').style.borderColor = "var(--wrong-red)";
+          let showAns = state.lang !== 'kanji' && state.mode === 2 ? state.currentQuestion.m : state.currentQuestion.r;
+          feedback.innerHTML = `
+												<span class="wrong">Wrong.</span> Answer: 
+												<b>${showAns}</b>${extraMsg}`;
+        }
+        document.getElementById('type-submit').style.display = 'none';
+        document.getElementById('type-next').style.display = 'inline-block';
+      }
+
+      function checkMCAnswer(selectedChoice, btnElement) {
+        if (state.answered) return;
+        state.answered = true;
+        const feedback = document.getElementById('mc-feedback');
+        let isCorrect = false;
+        let matchText = "";
+        let extraMsg = "";
+        if (state.lang === 'kanji') {
+          if (state.mode === 1) {
+            isCorrect = (selectedChoice.m === state.currentQuestion.m);
+            matchText = state.currentQuestion.m;
+            extraMsg = `
+												<br>
+													<span style="font-size:0.95rem; color:var(--text-muted)">${state.currentQuestion.k} = ${state.currentQuestion.m}</span>`;
+          } else if (state.mode === 3) {
+            isCorrect = (selectedChoice.k === state.currentQuestion.k);
+            matchText = state.currentQuestion.k;
+            extraMsg = `
+													<br>
+														<span style="font-size:0.95rem; color:var(--text-muted)">${state.currentQuestion.k} = ${state.currentQuestion.m}</span>`;
+          } else if (state.mode === 4) {
+            isCorrect = (selectedChoice.w === state.currentQuestion.w);
+            matchText = state.currentQuestion.w;
+            extraMsg = `
+														<br>
+															<span style="font-size:0.95rem; color:var(--text-muted)">Romaji: ${state.currentQuestion.r} 
+																<br> Meaning: ${state.currentQuestion.m}
+																</span>`;
+          }
+        } else {
+          isCorrect = (selectedChoice.k === state.currentQuestion.k);
+          matchText = state.currentQuestion.k;
+          let mText = state.mode === 4 ? `
+																<br>Meaning: ${state.currentQuestion.m}` : "";
+          extraMsg = `
+																	<br>
+																		<span style="font-size:0.95rem; color:var(--text-muted)">Romaji: ${state.currentQuestion.r}${mText}</span>`;
+        }
+        if (isCorrect) {
+          state.correctCount++;
+          btnElement.classList.add('correct-choice');
+          feedback.innerHTML = `
+																		<span class="correct">Correct!</span>${extraMsg}`;
+        } else {
+          state.wrongQueue.push(state.currentQuestion);
+          btnElement.classList.add('wrong-choice');
+          document.querySelectorAll('.choice-btn').forEach(b => {
+            if (b.innerText === matchText) b.classList.add('correct-choice');
+          });
+          feedback.innerHTML = `
+																		<span class="wrong">Wrong.</span>${extraMsg}`;
+        }
+        document.getElementById('mc-next').style.display = 'inline-block';
+      }
+
+      function nextQuestion() {
+        state.currentIndex++;
+        setupQuestion();
+      }
+
+      function showResults() {
+        showView('results');
+        const percent = Math.round((state.correctCount / state.totalQuestions) * 100);
+        const scoreEl = document.getElementById('results-score');
+        scoreEl.innerText = `${percent}%`;
+        scoreEl.style.color = percent === 100 ? "var(--correct-green)" : "var(--accent-blue)";
+        document.getElementById('results-message').innerText = `You got ${state.correctCount} out of ${state.totalQuestions} correct.`;
+        const retestBtn = document.getElementById('retest-btn');
+        const nextChunkBtn = document.getElementById('next-chunk-btn');
+        retestBtn.style.display = 'none';
+        nextChunkBtn.style.display = 'none';
+        if (state.wrongQueue.length > 0) {
+          retestBtn.style.display = 'inline-block';
+          retestBtn.innerText = `Retest ${state.wrongQueue.length} Mistakes`;
+        } else {
+          if (state.globalIndex < state.globalQueue.length) {
+            document.getElementById('results-message').innerText += " Ready for the next set?";
+            nextChunkBtn.style.display = 'inline-block';
+          } else {
+            document.getElementById('results-heading').innerText = "All Finished!";
+            document.getElementById('results-message').innerText += " You've completed everything!";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
